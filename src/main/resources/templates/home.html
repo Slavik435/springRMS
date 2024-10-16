@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<h1>Welcome to the Restaurant Menu Management System</h1>
+<nav>
+    <ul>
+        <li><a th:href="@{/dishes}">Dishes</a></li>
+        <li><a th:href="@{/categories}">Categories</a></li>
+        <li><a th:href="@{/employees}">Employees</a></li>
+    </ul>
+</nav>
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>
