@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dishes</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<h1>List of Dishes</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dish : ${dishes}">
+        <td th:text="${dish.name}"></td>
+        <td th:text="${dish.category.name}"></td>
+        <td th:text="${dish.price}"></td>
+        <td th:text="${dish.availableStock}"></td>
+        <td>
+            <a th:href="@{/dishes/edit/{id}(id=${dish.id})}">Edit</a>
+            <a th:href="@{/dishes/delete/{id}(id=${dish.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/dishes/new}">Add New Dish</a>
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>

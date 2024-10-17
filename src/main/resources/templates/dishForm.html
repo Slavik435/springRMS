@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dish Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<h1 th:text="${dish.id != null ? 'Edit Dish' : 'Add New Dish'}"></h1>
+<form method="post" th:action="@{${dish.id != null ? '/dishes/update/' + dish.id : '/dishes/add'}}" th:object="${dish}">
+    <label for="name">Name:</label>
+    <input id="name" name="name" required th:field="*{name}" type="text"><br>
+    <label for="category">Category:</label>
+    <select id="category" name="category" th:field="*{category.id}">
+        <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+    </select><br>
+    <label for="price">Price:</label>
+    <input id="price" name="price" required th:field="*{price}" step="0.01" type="number"><br>
+    <label for="availableStock">Stock:</label>
+    <input id="availableStock" name="availableStock" required th:field="*{availableStock}"  step="1"  type="number"><br>
+    <button type="submit">Submit</button>
+</form>
+<a th:href="@{/dishes}">Back to Dishes</a>
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>

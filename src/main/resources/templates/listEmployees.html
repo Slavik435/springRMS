@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employees</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<h1>List of Employees</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.name}"></td>
+        <td th:text="${employee.email}"></td>
+        <td>
+            <a th:href="@{/employees/edit/{id}(id=${employee.id})}">Edit</a>
+            <a th:href="@{/employees/delete/{id}(id=${employee.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/employees/new}">Add New Employee</a>
+<a th:href="@{/}">Home</a>
+<div th:insert="fragments/footer :: footer"></div>
+</body>
+</html>
