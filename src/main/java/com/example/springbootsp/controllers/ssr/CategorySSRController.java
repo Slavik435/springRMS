@@ -1,6 +1,7 @@
 package com.example.springbootsp.controllers.ssr;
 
 import com.example.springbootsp.domain.Category;
+import com.example.springbootsp.domain.CategoryDTO;
 import com.example.springbootsp.exception.ResourceNotFoundException;
 import com.example.springbootsp.services.CategoryService;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/categories")
@@ -21,36 +23,39 @@ class CategorySSRController {
 
     private final CategoryService categoryService;
 
-
     @GetMapping
     public String listCategories(Model model) {
-        List<Category> categories = categoryService.getAllCategories();
+        List<CategoryDTO> categories = categoryService.getAllCategories().stream()
+                .map(Category::toDto)
+                .collect(Collectors.toList());
         model.addAttribute("categories", categories);
         return "listCategories";
     }
 
     @GetMapping("/new")
     public String showCategoryForm(Model model) {
-        model.addAttribute("category", new Category());
+        model.addAttribute("category", new Category(new CategoryDTO()));
         return "categoryForm";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Category category = categoryService.getCategoryById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        CategoryDTO category = categoryService.getCategoryById(id)
+                .map(Category::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
         model.addAttribute("category", category);
         return "categoryForm";
     }
 
     @PostMapping("/add")
-    public String addCategory(@ModelAttribute Category category) {
-        categoryService.createCategory(category);
+    public String addCategory(@ModelAttribute CategoryDTO categoryDTO) {
+        categoryService.createCategory(new Category(categoryDTO));
         return "redirect:/categories";
     }
 
     @PostMapping("/update/{id}")
-    public String updateCategory(@PathVariable Long id, @ModelAttribute Category category) {
-        categoryService.updateCategory(id, category);
+    public String updateCategory(@PathVariable Long id, @ModelAttribute CategoryDTO categoryDTO) {
+        categoryService.updateCategory(id, new Category(categoryDTO));
         return "redirect:/categories";
     }
 

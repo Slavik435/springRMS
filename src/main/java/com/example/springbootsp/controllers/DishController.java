@@ -1,6 +1,7 @@
 package com.example.springbootsp.controllers;
 
 import com.example.springbootsp.domain.Dish;
+import com.example.springbootsp.domain.DishDTO;
 import com.example.springbootsp.services.CategoryService;
 import com.example.springbootsp.services.DishService;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/dishes")
@@ -24,27 +26,30 @@ public class DishController {
     private final DishService dishService;
     private final CategoryService categoryService;
 
-
     @GetMapping
-    public List<Dish> getAllDishes() {
-        return dishService.getAllDishes();
+    public List<DishDTO> getAllDishes() {
+        return dishService.getAllDishes().stream()
+                .map(Dish::toDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Dish> getDishById(@PathVariable Long id) {
+    public ResponseEntity<DishDTO> getDishById(@PathVariable Long id) {
         return dishService.getDishById(id)
-                .map(ResponseEntity::ok)
+                .map(dish -> ResponseEntity.ok(dish.toDto()))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Dish createDish(@RequestBody Dish dish) {
-        return categoryService.createDish(dish);
+    public DishDTO createDish(@RequestBody DishDTO dishDTO) {
+        Dish dish = dishService.createDish(dishDTO);
+        return dish.toDto();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Dish> updateDish(@PathVariable Long id, @RequestBody Dish dishDetails) {
-        return ResponseEntity.ok(dishService.updateDish(id, dishDetails));
+    public ResponseEntity<DishDTO> updateDish(@PathVariable Long id, @RequestBody DishDTO dishDTO) {
+        Dish updatedDish = dishService.updateDish(id, dishDTO);
+        return ResponseEntity.ok(updatedDish.toDto());
     }
 
     @DeleteMapping("/{id}")

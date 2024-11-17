@@ -31,4 +31,24 @@ public class Dish {
 
     private Integer availableStock;
 
+    public Dish(DishDTO dishDTO) {
+        this.id = dishDTO.getId();
+        this.name = dishDTO.getName();
+        this.price = dishDTO.getPrice();
+        this.availableStock = dishDTO.getAvailableStock();
+    }
+
+    public Dish() {
+    }
+
+    public DishDTO toDto() {
+        DishDTO dto = new DishDTO();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        dto.setCategory(this.category);
+        dto.setPrice(this.price);
+        dto.setAvailableStock(this.availableStock);
+        return dto;
+    }
+
 }

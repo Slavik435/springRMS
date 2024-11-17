@@ -18,4 +18,20 @@ public class Category {
     private Long id;
 
     private String name;
+
+
+    public Category(CategoryDTO categoryDTO) {
+        this.id = categoryDTO.getId();
+        this.name = categoryDTO.getName();
+    }
+
+    public Category() {
+    }
+
+    public CategoryDTO toDto() {
+        CategoryDTO dto = new CategoryDTO();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        return dto;
+    }
 }

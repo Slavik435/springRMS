@@ -20,4 +20,21 @@ public class Employee {
     private String name;
 
     private String email;
+
+    public Employee(EmployeeDTO employeeDTO) {
+        this.id = employeeDTO.getId();
+        this.name = employeeDTO.getName();
+        this.email = employeeDTO.getEmail();
+    }
+
+    public Employee() {
+    }
+
+    public EmployeeDTO toDto() {
+        EmployeeDTO dto = new EmployeeDTO();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        dto.setEmail(this.email);
+        return dto;
+    }
 }

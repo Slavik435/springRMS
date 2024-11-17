@@ -4,7 +4,6 @@ import com.example.springbootsp.domain.Employee;
 import com.example.springbootsp.exception.ResourceNotFoundException;
 import com.example.springbootsp.repos.EmployeeRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

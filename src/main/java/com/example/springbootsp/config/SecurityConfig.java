@@ -38,7 +38,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)// for postman testing
                 .authorizeRequests()
-                .requestMatchers( "/login", "/css/**", "/js/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+                .requestMatchers("/login", "/css/**", "/js/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)

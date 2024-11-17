@@ -1,6 +1,7 @@
 package com.example.springbootsp.services;
 
 import com.example.springbootsp.domain.Dish;
+import com.example.springbootsp.domain.DishDTO;
 import com.example.springbootsp.exception.ResourceNotFoundException;
 import com.example.springbootsp.repos.DishRepository;
 import lombok.AllArgsConstructor;
@@ -26,11 +27,16 @@ public class DishService {
     }
 
     @Transactional
-    public Dish createDish(Dish dish) {
-        return dishRepository.save(dish);
+    public Dish createDish(DishDTO dish) {
+        Dish newDish = new Dish(dish);
+        newDish.setCategory(dish.getCategory());
+        newDish.setAvailableStock(dish.getAvailableStock());
+        newDish.setPrice(dish.getPrice());
+        newDish.setName(dish.getName());
+        return dishRepository.save(newDish);
     }
 
-    public Dish updateDish(Long id, Dish dishDetails) {
+    public Dish updateDish(Long id, DishDTO dishDetails) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found for this id :: " + id));
 

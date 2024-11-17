@@ -15,9 +15,9 @@
         <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
     </select><br>
     <label for="price">Price:</label>
-    <input id="price" name="price" required th:field="*{price}" step="0.01" type="number"><br>
+    <input id="price" name="price" required step="0.01" th:field="*{price}" type="number"><br>
     <label for="availableStock">Stock:</label>
-    <input id="availableStock" name="availableStock" required th:field="*{availableStock}"  step="1"  type="number"><br>
+    <input id="availableStock" name="availableStock" required step="1" th:field="*{availableStock}" type="number"><br>
     <button type="submit">Submit</button>
 </form>
 <a th:href="@{/dishes}">Back to Dishes</a>

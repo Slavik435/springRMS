@@ -1,6 +1,7 @@
 package com.example.springbootsp.controllers.ssr;
 
 import com.example.springbootsp.domain.Dish;
+import com.example.springbootsp.domain.DishDTO;
 import com.example.springbootsp.exception.ResourceNotFoundException;
 import com.example.springbootsp.services.CategoryService;
 import com.example.springbootsp.services.DishService;
@@ -33,28 +34,30 @@ public class DishSSRController {
 
     @GetMapping("/new")
     public String showDishForm(Model model) {
-        model.addAttribute("dish", new Dish());
+        model.addAttribute("dish", new Dish(new DishDTO()));
         model.addAttribute("categories", categoryService.getAllCategories());
         return "dishForm";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Dish dish = dishService.getDishById(id).orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
+        DishDTO dish = dishService.getDishById(id)
+                .map(Dish::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
         model.addAttribute("dish", dish);
         model.addAttribute("categories", categoryService.getAllCategories());
         return "dishForm";
     }
 
     @PostMapping("/add")
-    public String addDish(@ModelAttribute Dish dish) {
-        dishService.createDish(dish);
+    public String addDish(@ModelAttribute DishDTO dishDTO) {
+        dishService.createDish(dishDTO);
         return "redirect:/dishes";
     }
 
     @PostMapping("/update/{id}")
-    public String updateDish(@PathVariable Long id, @ModelAttribute Dish dish) {
-        dishService.updateDish(id, dish);
+    public String updateDish(@PathVariable Long id, @ModelAttribute DishDTO dishDTO) {
+        dishService.updateDish(id, dishDTO);
         return "redirect:/dishes";
     }
 

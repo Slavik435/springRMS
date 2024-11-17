@@ -7,7 +7,9 @@
 <body>
 <div th:insert="fragments/header :: header"></div>
 <h1 th:text="${employee.id != null ? 'Edit employee' : 'Add New employee'}"></h1>
-<form method="post" th:action="@{${employee.id != null ? '/employees/update/' + employee.id : '/employees/add'}}" th:object="${employee}">
+<form method="post" th:action="@{${employee.id != null ? '/employees/update/' + employee.id : '/employees/add'}}"
+      th:object="${employee}">
+    <input hidden name="id" th:value="null">
     <label for="name">Name:</label>
     <input id="name" name="name" required th:field="*{name}" type="text"><br>
     <label for="email">Email:</label>

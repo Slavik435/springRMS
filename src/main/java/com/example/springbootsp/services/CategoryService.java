@@ -55,7 +55,7 @@ public class CategoryService {
     public Dish createDish(Dish dish) {
         dish.setCategory(categoryRepository.findById(dish.getCategory().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id :: " + dish.getCategory().getId())));
-        return dishService.createDish(dish);
+        return dishService.createDish(dish.toDto());
     }
 
 }
